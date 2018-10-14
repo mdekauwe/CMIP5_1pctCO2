@@ -43,7 +43,10 @@ def main():
               "MPI-ESM-LR","MPI-ESM-P","GFDL-ESM2G","HadGEM2-ES",\
               "IPSL-CM5A-MR","MIROC-ESM","MPI-ESM-MR"]
 
-    models = ["HadGEM2-ES",\
+    # Drop GFDL model as model has a weird response to CO2 and CO2 does
+    # not increase throughout the timeseries, see comment in Swann paper
+    models = ["BNU-ESM","IPSL-CM5A-LR","IPSL-CM5B-LR",\
+              "MPI-ESM-LR","MPI-ESM-P","HadGEM2-ES",\
               "IPSL-CM5A-MR","MIROC-ESM","MPI-ESM-MR"]
 
 

@@ -22,8 +22,7 @@ import datetime as dt
 import matplotlib.pyplot as plt
 import pandas as pd
 import scipy.optimize as optimize
-from lmfit import minimize, Parameters, report_fit, Model, conf_interval,
-     printfuncs, conf_interval2d
+from lmfit import minimize, Parameters, report_fit, Model, conf_interval
 
 # Stop in 700's in whole years, these data are 12 months per yr
 #rate = 1.0
@@ -46,9 +45,11 @@ def main():
               "MPI-ESM-LR","MPI-ESM-P","GFDL-ESM2G","HadGEM2-ES",\
               "IPSL-CM5A-MR","MIROC-ESM","MPI-ESM-MR"]
 
-    models = ["HadGEM2-ES",\
+    # Drop GFDL model as model has a weird response to CO2 and CO2 does
+    # not increase throughout the timeseries, see comment in Swann paper
+    models = ["BNU-ESM","IPSL-CM5A-LR","IPSL-CM5B-LR",\
+              "MPI-ESM-LR","MPI-ESM-P","HadGEM2-ES",\
               "IPSL-CM5A-MR","MIROC-ESM","MPI-ESM-MR"]
-
 
     rate = 1.0
     start_co2 = 359.08095860482547
@@ -67,7 +68,7 @@ def main():
     plt.rcParams['font.sans-serif'] = "Helvetica"
     plt.rcParams['axes.labelsize'] = 14
     plt.rcParams['font.size'] = 14
-    plt.rcParams['legend.fontsize'] = 14
+    plt.rcParams['legend.fontsize'] = 10
     plt.rcParams['xtick.labelsize'] = 14
     plt.rcParams['ytick.labelsize'] = 14
 
@@ -89,7 +90,7 @@ def main():
     ax = fig.add_subplot(111)
 
     for model in models:
-
+        print(model)
         fname = "%s/grassFrac_%s_1pctCO2_r1i1p1_1_140_1pctCO2_regrid_setgrid.nc"\
                     % (model, model)
         fname = os.path.join(grass_path, fname)
@@ -166,7 +167,7 @@ def main():
     ax.plot(xrange, y_fit, lw=3, ls="-", color="black", label="Observations")
     #ax1.plot(xrange, y_fit2, ls="-.", color="seagreen")
 
-    ax.legend(numpoints=1, loc="best")
+    ax.legend(numpoints=1, loc="best", ncol=2, frameon=False)
     ax.set_xlabel("CO$_2$ (\u03BCmol mol$^{-1}$)")
     ax.set_ylabel("Normalised NPP response to CO$_2$ (%)")
 
